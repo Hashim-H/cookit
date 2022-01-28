@@ -88,6 +88,7 @@ export default function Signup(props) {
                 <FormControl id='name' isRequired>
                   <FormLabel>Name</FormLabel>
                   <Input
+                    role='name'
                     type='text'
                     value={state.name}
                     name={'name'}
@@ -99,6 +100,7 @@ export default function Signup(props) {
                 <FormControl id='username'>
                   <FormLabel>Username</FormLabel>
                   <Input
+                    role='username'
                     type='text'
                     value={state.username}
                     name={'username'}
@@ -110,6 +112,7 @@ export default function Signup(props) {
             <FormControl id='email' isRequired>
               <FormLabel>Email address</FormLabel>
               <Input
+                role='email'
                 type='email'
                 value={state.email}
                 name={'email'}
@@ -120,6 +123,7 @@ export default function Signup(props) {
               <FormLabel>Password</FormLabel>
               <InputGroup>
                 <Input
+                role='password'
                   type={showPassword ? 'text' : 'password'}
                   value={state.password}
                   name={'password'}
@@ -127,6 +131,7 @@ export default function Signup(props) {
                 />
                 <InputRightElement h={'full'}>
                   <Button
+                    role='sign-up-button'
                     variant={'ghost'}
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)

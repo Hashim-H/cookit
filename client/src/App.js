@@ -23,6 +23,16 @@ function App() {
     })
   }, [])
 
+  const postRecipe = async (recipe, imgs) => {
+    const imageUrls = await api.postRecipeImages(localStorage.accessToken, imgs);
+    const recipeWithUrls = { ...recipe, images: imageUrls };
+    const response = await api.postRecipes(localStorage.accessToken, recipeWithUrls)
+    const itemDets = response.data[0];
+    recipe.id = itemDets.id;
+    setRecipes([...recipes, recipe]);
+  };
+
+
   return (
     <div className='App'>
       <Router>
@@ -49,9 +59,11 @@ function App() {
           <Route
             path='/recipe/post'
             element={<PostRecipe isAuthenticated={isAuthenticated}
-          setIsAuthenticated={setIsAuthenticated}
-          user={user}
-          setAuthenticatedUser={setAuthenticatedUser} />}
+            setIsAuthenticated={setIsAuthenticated}
+            user={user}
+            setAuthenticatedUser={setAuthenticatedUser}
+            postRecipe={postRecipe} />}
+
           />
           <Route
             path='signin'

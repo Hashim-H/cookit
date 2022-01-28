@@ -19,8 +19,7 @@ import {
   Select,
   Image,
 } from '@chakra-ui/react'
-import api from '../services/apiServices'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   title: '',
@@ -32,6 +31,18 @@ const initialState = {
   imgs: [],
   file: [],
 }
+
+const cuisines = [
+  'American',
+  'French',
+  'Greek',
+  'Indian',
+  'Italian',
+  'Mexican',
+  'Spanish'
+]
+
+
 export default function PostRecipe(props) {
   let navigate = useNavigate()
   const [state, setState] = useState(initialState)
@@ -42,27 +53,34 @@ export default function PostRecipe(props) {
       ...prevState,
       [name]: value,
     }))
-    console.log(state)
   }
-  const _onChange = (event) => {
+
+
+  const handleImageUpload = (event) => {
     setState({
       imgs: event.target.files,
     })
   }
-  console.log(localStorage);
+
+  function handleDragOver(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "copy";
+   }
+   function handleDrop(ev) {
+    ev.preventDefault();
+    setState({imgs: ev.dataTransfer.files});
+   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const { title, description, ingredients, steps } = state;
-    const recipe = { title, cuisine_id: 1, user_id: props.user.id, description, ingredients, steps };
-    
-    const res = await api.postRecipes(localStorage.accessToken, recipe);
-    
-    
-    
+    const { cuisine, title, description, ingredients, steps, imgs } = state;
+    const cuisine_id = cuisines.indexOf(cuisine) + 1;
+    const recipe = { title, cuisine_id, user_id: props.user.id, description, ingredients, steps, imgs };
+    await props.postRecipe(recipe, state.imgs);
     navigate('/')
-  
   }
+
+
 
   return (
     <Box bg={useColorModeValue('gray.50', 'inherit')} p={10}>
@@ -139,11 +157,7 @@ export default function PostRecipe(props) {
                       w='full'
                       rounded='md'
                     >
-                      <option>Chinese</option>
-                      <option>Mexican</option>
-                      <option>Indian</option>
-                      <option>Turkish</option>
-                      <option>Middle Eastern</option>
+                      {cuisines.map(cuisine => <option>{cuisine}</option>)}
                     </Select>
                   </FormControl>
 
@@ -233,6 +247,8 @@ export default function PostRecipe(props) {
                       borderColor={useColorModeValue('gray.300', 'gray.500')}
                       borderStyle='dashed'
                       rounded='md'
+                      onDragOver={handleDragOver}
+                      onDrop={handleDrop}
                     >
                       <Stack spacing={1} textAlign='center'>
                         <Icon
@@ -273,7 +289,7 @@ export default function PostRecipe(props) {
                             <span>Upload a file</span>
                             <VisuallyHidden>
                               <input
-                                onChange={_onChange}
+                                onChange={handleImageUpload}
                                 id='file-upload'
                                 name='file-upload'
                                 type='file'

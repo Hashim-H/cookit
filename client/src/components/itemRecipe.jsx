@@ -31,6 +31,7 @@ export default function ItemRecipe({ recipe }) {
       >
         <Box h={'420px'} bg={'gray.100'} mt={-6} mx={-6} mb={6}>
           <Image
+            role='food-image'
             src={
               'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?cs=srgb&dl=pexels-pixabay-461198.jpg&fm=jpg'
             }
@@ -58,7 +59,7 @@ export default function ItemRecipe({ recipe }) {
           >
             {recipe.cuisine}
           </Heading>
-          <Text color={'gray.500'}>{recipe.description}</Text>
+          <Text color={'gray.500'} role="definition">{recipe.description}</Text>
         </Stack>
         <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
           <Badge

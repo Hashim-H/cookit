@@ -82,6 +82,7 @@ export default function SignIn(props) {
             <FormControl id='email'>
               <FormLabel>Email address</FormLabel>
               <Input
+                role='email'
                 type='email'
                 value={state.email}
                 name={'email'}
@@ -91,6 +92,7 @@ export default function SignIn(props) {
             <FormControl id='password'>
               <FormLabel>Password</FormLabel>
               <Input
+                role='password'
                 type='password'
                 value={state.password}
                 name={'password'}
@@ -107,6 +109,7 @@ export default function SignIn(props) {
                 <Link color={'blue.400'}>Forgot password?</Link>
               </Stack>
               <Button
+              role='sign-in-btn'
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
